@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+.toggle-switch {
+  width: 80px;
+  height: 30px;
+  @apply bg-stone-700;
+  border-radius: 30px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-switch.on {
+  @apply bg-amber-400;
+}
+
+.knob {
+  width: 26px;
+  height: 26px;
+  @apply bg-stone-100;
+  border-radius: 50%;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.3s ease;
+}
+
+.toggle-switch.on .knob {
+  transform: translateX(50px);
+}
+
+html {
+  overscroll-behavior: none;
+}

@@ -32,7 +32,7 @@ export default function MovieCard({movie}: {movie: Movie}) {
         transition
         cursor-pointer
         hover:shadow-lg hover:border-stone-500
-        focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-stone-900
+        focus:outline-none focus:ring-2 focus:ring-offset-2
         hover:bg-stone-800/50
       '
       aria-label={`View details for ${movie.title}`}

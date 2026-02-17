@@ -4,6 +4,8 @@ import {useRootContext} from '../hooks/useRootContext';
 
 export default function MoviePanel() {
   const {movies} = useOutletContext<RootOutletContext>();
+  const {watchlist, handleAddToWatchlist, handleRemoveFromWatchlist} =
+    useRootContext();
 
   const params = useParams();
   const idRaw = params.id ?? '';
@@ -21,8 +23,6 @@ export default function MoviePanel() {
     );
   }
 
-  const {watchlist, handleAddToWatchlist, handleRemoveFromWatchlist} =
-    useRootContext();
   const inWatchlist = watchlist.includes(movie.id);
 
   return (

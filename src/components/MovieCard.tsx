@@ -18,7 +18,7 @@ export default function MovieCard({movie}: {movie: Movie}) {
       tabIndex={0}
       onClick={goToDetails}
       onKeyDown={(e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
+        if (e.key === ' ') {
           e.preventDefault();
           goToDetails();
         }

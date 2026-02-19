@@ -1,11 +1,11 @@
-import {useOutletContext, useParams, useSearchParams} from 'react-router-dom';
-import type {RootOutletContext} from '../layouts/RootLayout';
-import {useRootContext} from '../hooks/useRootContext';
+import {useParams} from 'react-router-dom';
+import {useAppDispatch, useAppSelector} from '../store/hooks';
+import {addToWatchlist, removeFromWatchlist} from '../store/watchlistSlice';
 
 export default function MoviePanel() {
-  const {movies} = useOutletContext<RootOutletContext>();
-  const {watchlist, handleAddToWatchlist, handleRemoveFromWatchlist} =
-    useRootContext();
+  const movies = useAppSelector((s) => s.movies.movies);
+  const watchlist = useAppSelector((s) => s.watchlist.ids);
+  const dispatch = useAppDispatch();
 
   const params = useParams();
   const idRaw = params.id ?? '';
@@ -47,8 +47,8 @@ export default function MoviePanel() {
                   <button
                     onClick={() => {
                       inWatchlist
-                        ? handleRemoveFromWatchlist(movie.id)
-                        : handleAddToWatchlist(movie.id);
+                        ? dispatch(removeFromWatchlist(movie.id))
+                        : dispatch(addToWatchlist(movie.id));
                     }}
                     className={
                       'px-4 py-2 rounded-md text-sm font-medium border transition ' +

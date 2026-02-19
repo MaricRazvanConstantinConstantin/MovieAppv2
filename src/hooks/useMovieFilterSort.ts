@@ -15,6 +15,7 @@ export function useMovieFilterSort() {
   const filterFunction = useCallback(
     (m: Movie) => {
       const matchTitle = q ? m.title.toLowerCase().includes(q) : true;
+      if (genre === 'all') return matchTitle;
       const matchGenre = genre ? m.genre === genre : true;
       return matchTitle && matchGenre;
     },

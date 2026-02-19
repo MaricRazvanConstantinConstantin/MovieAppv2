@@ -1,12 +1,13 @@
 import {useNavigate} from 'react-router-dom';
-import {useRootContext} from '../hooks/useRootContext';
 import {type Movie} from '../types/Movie';
 import ToggleSwitch from './ToggleSwitch';
 import EyeIcon from '../icons/Eye';
+import {useAppDispatch, useAppSelector} from '../store/hooks';
+import {addToWatchlist, removeFromWatchlist} from '../store/watchlistSlice';
 
 export default function MovieCard({movie}: {movie: Movie}) {
-  const {watchlist, handleAddToWatchlist, handleRemoveFromWatchlist} =
-    useRootContext();
+  const dispatch = useAppDispatch();
+  const watchlist = useAppSelector((s) => s.watchlist.ids);
   const inWatchlist = watchlist.includes(movie.id);
   const navigate = useNavigate();
 
@@ -76,8 +77,8 @@ export default function MovieCard({movie}: {movie: Movie}) {
               isActive={inWatchlist}
               handleToggle={() => {
                 inWatchlist
-                  ? handleRemoveFromWatchlist(movie.id)
-                  : handleAddToWatchlist(movie.id);
+                  ? dispatch(removeFromWatchlist(movie.id))
+                  : dispatch(addToWatchlist(movie.id));
               }}
               icon={<EyeIcon />}
             />

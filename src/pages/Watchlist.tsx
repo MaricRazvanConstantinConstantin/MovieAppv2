@@ -1,13 +1,13 @@
-import {useOutletContext} from 'react-router-dom';
 import MovieList from '../components/MovieList';
-import {type RootOutletContext} from '../layouts/RootLayout';
 import Searchbar from '../components/Searchbar';
 import {useMovieFilterSort} from '../hooks/useMovieFilterSort';
 import {useMemo} from 'react';
 import NoMovies from '../components/NoMovies';
+import {useAppSelector} from '../store/hooks';
 
 export default function Watchlist() {
-  const {movies, watchlist} = useOutletContext<RootOutletContext>();
+  const movies = useAppSelector((s) => s.movies.movies);
+  const watchlist = useAppSelector((s) => s.watchlist.ids);
   const {transform} = useMovieFilterSort();
 
   const watchlistMovies = movies.filter((m) => watchlist.includes(m.id));

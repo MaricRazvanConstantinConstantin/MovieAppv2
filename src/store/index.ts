@@ -1,6 +1,14 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import {
+  combineReducers,
+  configureStore,
+  createListenerMiddleware,
+} from '@reduxjs/toolkit';
 import moviesReducer from './moviesSlice';
-import watchlistReducer from './watchlistSlice';
+import watchlistReducer, {
+  addToWatchlist,
+  removeFromWatchlist,
+  setWatchlist,
+} from './watchlistSlice';
 
 const rootReducer = combineReducers({
   movies: moviesReducer,
@@ -21,19 +29,37 @@ function loadState() {
 
 const preloadedState = loadState();
 
+const watchlistListener = createListenerMiddleware();
+
+const startPersistEffect = (listenerApi: any) => {
+  console.log('Persisting watchlist to localStorage...');
+  try {
+    const state = listenerApi.getState();
+    const watchlist = state.watchlist;
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({watchlist}));
+  } catch {
+    // ignore write errors
+  }
+};
+
+watchlistListener.startListening({
+  actionCreator: addToWatchlist,
+  effect: (_action, listenerApi) => startPersistEffect(listenerApi),
+});
+watchlistListener.startListening({
+  actionCreator: removeFromWatchlist,
+  effect: (_action, listenerApi) => startPersistEffect(listenerApi),
+});
+watchlistListener.startListening({
+  actionCreator: setWatchlist,
+  effect: (_action, listenerApi) => startPersistEffect(listenerApi),
+});
+
 export const store = configureStore({
   reducer: rootReducer,
   preloadedState,
-});
-
-store.subscribe(() => {
-  try {
-    const state = store.getState();
-    const toPersist = {watchlist: state.watchlist};
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(toPersist));
-  } catch (e) {
-    // ignore
-  }
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().prepend(watchlistListener.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

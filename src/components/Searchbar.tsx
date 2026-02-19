@@ -66,6 +66,7 @@ export default function Searchbar() {
   return (
     <div className='flex flex-col xl:flex-row gap-4 p-4 bg-stone-950 text-stone-200 shadow'>
       <input
+        id='search'
         value={qInput}
         onChange={(e) => setQInput(e.target.value)}
         placeholder='Search by title…'

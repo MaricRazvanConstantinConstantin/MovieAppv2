@@ -41,9 +41,9 @@ export default function MoviePanel() {
             </div>
 
             <div className='min-w-0 flex-1 text-stone-200'>
-              <h1 className='text-2xl font-semibold text-stone-100 leading-tight break-words flex justify-between items-center'>
+              <h1 className='text-2xl font-semibold text-stone-100 leading-tight break-words flex justify-between items-center '>
                 {movie.title}
-                <div className='mt-6 flex flex-wrap gap-3'>
+                <div className=' flex flex-wrap gap-3'>
                   <button
                     onClick={() => {
                       inWatchlist
